@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Office Out Time</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #555;
+      }
+
+      input[type="time"] {
+        padding: 8px;
+        font-size: 16px;
+        width: 10vw;
+        text-align: center;
+      }
+
+      button {
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #outTime {
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+    </style>
+    <script>
+      function calculateOutTime() {
+        var inTime = document.getElementById("inTime").value;
+        var inTimeParts = inTime.split(":");
+        var hours = parseInt(inTimeParts[0]);
+        var minutes = parseInt(inTimeParts[1]);
+        var ampm = inTimeParts[1].slice(-2); // Get the AM/PM value
+
+        // Adjust the hours if necessary
+        if (ampm === "AM" && hours === 12) {
+          hours = 0;
+        } else if (ampm === "PM" && hours < 12) {
+          hours += 12;
+        }
+
+        // Add 8 hours and 45 minutes to the in-time
+        var totalMinutes = hours * 60 + minutes + 8 * 60 + 45;
+
+        var outHours = Math.floor(totalMinutes / 60);
+        var outMinutes = totalMinutes % 60;
+
+        // Convert the out-time to 12-hour format
+        var ampmOut = outHours >= 12 ? "PM" : "AM";
+        outHours = outHours % 12 || 12;
+
+        // Format the output time with leading zeros if necessary
+        var outTime =
+          (outHours < 10 ? "0" : "") +
+          outHours +
+          ":" +
+          (outMinutes < 10 ? "0" : "") +
+          outMinutes +
+          " " +
+          ampmOut;
+
+        // Set the calculated out-time value in the result field
+        document.getElementById("outTime").textContent = outTime;
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Time Calculator</h1>
+      <label for="inTime">In Time:</label>
+      <input
+        type="time"
+        id="inTime"
+        value="09:15"
+        placeholder="9:15 AM"
+        step="300"
+      />
+      <br />
+      <button onclick="calculateOutTime()">Calculate Out Time</button>
+      <br />
+      <div id="outTime"></div>
+    </div>
+  </body>
+</html>
