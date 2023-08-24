@@ -23,6 +23,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  font-size: 10.5rem;
 }
 
 label {
